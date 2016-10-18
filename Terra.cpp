@@ -16,14 +16,64 @@ int main()
 	
 	int id = manager.GetImage("grass");
 	int size = manager.GetSize();
+	int width = manager.GetWidth();
+	int height = manager.GetHeight();
 
-	std::cout << "image number: " << id << ", size is: " << size << std::endl;
+	std::cout << "image number: " << id << ", size is: " << size << " bytes, and is " << width << " X " << height << std::endl;
 
 	id = manager.GetImage("grass2");
 	size = manager.GetSize();
+	width = manager.GetWidth();
+	height = manager.GetHeight();
 
-	std::cout << "image number: " << id << ", size is: " << size << std::endl;
+	std::cout << "image number: " << id << ", size is: " << size << " bytes, and is " << width << " X " << height << std::endl;
 
+	//LOADING DONE, LET'S START MAKING STUFF!!!
+	std::cout << "getting tiles in memory" << std::endl;
+	manager.GetImage("grass");
+	std::cout << "getting bytes" << std::endl;
+	const char* grass = manager.GetBytes();
+	const int tileSize = 8;
+	std::cout << "done" << std::endl;
+	const int imageSize = tileSize * tileSize * 4; //4 8X8 images together
+
+	std::cout << "Now creating the image" << std::endl;
+	char* image = (char*)malloc(imageSize * sizeof(char)); 
+
+	std::cout << "Now creating the big picture" << std::endl;
+
+	//building the final image
+	//char finalImage[imageSize];
+	std::string finalImage = grass;
+	finalImage += grass;
+	finalImage += grass;
+	finalImage += grass;
+
+	/*strcpy_s(finalImage, grass);
+	strcat_s(finalImage, grass);
+	strcat_s(finalImage, grass);
+	strcat_s(finalImage, grass);*/
+
+	std::cout << "Now painting the image" << std::endl;
+
+	for (int i = 0; i < imageSize; i++)
+	{
+		image[i] = finalImage[i];
+	}
+
+	//int color = 0;
+
+	//for (int x = 0; x < 64; x++)
+	//{
+	//	image[x] = color;
+	//	std::cout << color << " - ";
+	//	color++;
+	//	//color == 0 ? color = 255 : color = 0; //alternate color between black and white
+	//}
+
+	std::cout << "Now saving the image" << std::endl;
+
+	manager.Save(8 * 2, image, "output.png");
 
 	//// generate image data as just array of bytes.
 	//// get width and height of your desktop

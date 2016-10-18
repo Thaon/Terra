@@ -23,9 +23,12 @@ public:
 	void AddImage(std::string fileName, std::string name);
 
 	//single image related methods
+	void Save(int size, char* imageData, std::string fileName);
 
 	//single image G&S
 	int GetSize() { return ilGetInteger(IL_IMAGE_SIZE_OF_DATA); }
-	ILubyte* GetBytes() { return ilGetData(); }
+	int GetWidth() { return ilGetInteger(IL_IMAGE_WIDTH); }
+	int GetHeight() { return ilGetInteger(IL_IMAGE_HEIGHT); }
+	const char* GetBytes();
 };
 

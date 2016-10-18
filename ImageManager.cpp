@@ -41,6 +41,43 @@ void ImageManager::AddImage(std::string fileName, std::string name)
 
 }
 
+void ImageManager::Save(int size, char* imageData, std::string fileName)
+{
+	int bytesToUsePerPixel = 3;  // RGB
+	int sizeOfByte = sizeof(unsigned char);
+	int imageSize = size * sizeOfByte * bytesToUsePerPixel;
+	ILuint imageID = ilGenImage();// +m_images;
+	ilBindImage(imageID);
+	printf("New image!  width=%d,  height=%d,  bpp=%d\n",
+		ilGetInteger(IL_IMAGE_WIDTH),
+		ilGetInteger(IL_IMAGE_HEIGHT),
+		ilGetInteger(IL_IMAGE_BPP)
+	);
+
+	//texxing the image
+	ilTexImage(size, size, 1, 3, IL_RGB, IL_UNSIGNED_BYTE, imageData);
+
+	printf("Now width=%d,  height=%d,  bpp=%d\n",
+		ilGetInteger(IL_IMAGE_WIDTH),
+		ilGetInteger(IL_IMAGE_HEIGHT),
+		ilGetInteger(IL_IMAGE_BPP)
+	);
+
+	//enable overwriting
+	ilEnable(IL_FILE_OVERWRITE);
+	//save
+	ilSave(IL_PNG, "output.png");
+}
+
+const char* ImageManager::GetBytes()
+{
+	const char* data;
+	int size = GetSize();
+	data = reinterpret_cast<const char*>(ilGetData());
+
+	return data;
+}
+
 void ImageManager::Load(const char* fileName)
 {
 	std::cout << (const ILstring)fileName << std::endl;
