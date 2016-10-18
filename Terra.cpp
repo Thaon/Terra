@@ -73,7 +73,14 @@ int main()
 
 	std::cout << "Now saving the image" << std::endl;
 
-	manager.Save(8 * 2, image, "output.png");
+	char* im = new char[imageSize];
+
+	for (int i = 0 ; i < imageSize ; i++)
+	{
+		im[i] = finalImage[i];
+	}
+
+	manager.Save(8 * 2, im, "output.png");
 
 	//// generate image data as just array of bytes.
 	//// get width and height of your desktop
